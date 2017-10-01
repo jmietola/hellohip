@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { subscribeToTimer } from './api';
+import Room from './components/room.js';
 
 class App extends Component {
+
+  state = {
+    timestamp: 'no timestamp yet'
+  };
+
+  constructor(props) {
+  super(props);
+  subscribeToTimer((err, timestamp) => this.setState({
+    timestamp
+  }));
+  }
 
   state = {users: []}
 
@@ -43,6 +56,11 @@ class App extends Component {
         <p>Longitude: {this.state.longitude}</p>
         {this.state.error ? <p>Error: {this.state.error}</p> : null}
         <p> {this.state.status}</p>
+
+        <p className="App-intro">
+        <Room></Room>
+        This is the timer value: {this.state.timestamp}
+        </p>
       </div>
     );
   }
