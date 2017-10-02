@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { subscribeToTimer } from './api';
 import Room from './components/room.js';
 
 class App extends Component {
 
-  state = {
-    timestamp: 'no timestamp yet'
-  };
-
   constructor(props) {
   super(props);
-  subscribeToTimer((err, timestamp) => this.setState({
-    timestamp
-  }));
+
   }
 
   state = {users: []}
@@ -25,8 +18,14 @@ class App extends Component {
         fetch(`/users?lat=${position.coords.latitude}&lng=${position.coords.longitude}`)
         .then(response => {
             response.text().then(text => {
+
+              let hipFound = false;
+
+              (text === 'true') ? hipFound = true : hipFound = false;
+
               this.setState({
-                 status: text
+                 status: text,
+                 isHipFound: hipFound
               })
            });
          })
@@ -55,12 +54,13 @@ class App extends Component {
         <p>Latitude: {this.state.latitude}</p>
         <p>Longitude: {this.state.longitude}</p>
         {this.state.error ? <p>Error: {this.state.error}</p> : null}
-        <p> {this.state.status}</p>
 
-        <p className="App-intro">
-        <Room></Room>
-        This is the timer value: {this.state.timestamp}
-        </p>
+        {this.state.isHipFound ? (
+          <Room />
+        ) : (
+          <p>{"No hips found"}</p>
+        )}
+
       </div>
     );
   }
