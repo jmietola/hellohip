@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Room from './components/room.js';
+const io = require('socket.io-client')
+const socket = io()
+
 
 class App extends Component {
 
   constructor(props) {
   super(props);
+  this.state = {
+  color: "1"
+  };
+
 
   }
 
@@ -30,12 +37,22 @@ class App extends Component {
                  longitude: position.coords.longitude,
                  error: null,
               })
+
+              let room = "abc123";
+              socket.emit('room', room);
            });
          })
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+
+    let self = this;
+    socket.on('hipMatch', function(data){
+      console.log("hipMatch", data);
+      console.log(this.state);
+      self.setState({isHipFound: true});
+    });
   }
 
   render() {
@@ -53,7 +70,7 @@ class App extends Component {
         {this.state.error ? <p>Error: {this.state.error}</p> : null}
 
         {this.state.isHipFound ? (
-          <Room locationFromApp={this.state.latitude}/>
+          <Room socket={socket}locationFromApp={this.state.latitude}/>
         ) : (
           <p>{"No hips found"}</p>
         )}

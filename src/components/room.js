@@ -1,7 +1,7 @@
 import React from 'react'
 import './room.css';
-const io = require('socket.io-client')
-const socket = io()
+//const io = require('socket.io-client')
+//const socket = io()
 
 class Room extends React.Component {
 
@@ -12,48 +12,54 @@ class Room extends React.Component {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+  componentDidMount() {
+    const { socket } = this.props;
+    let room = "abc123";
+    let data = {id:room, msg: true};
 
-      let room = "abc123";
-      socket.emit('room', room);
+    socket.emit('hipFound', data);
 
-      socket.on('chat message', function(data){
+//    socket.emit('room', room);
+
+    socket.on('chat message', function(data){
       console.log("chat message", data);
-
       var div = document.getElementById('messages');
       div.innerHTML += "<li>" + data + "</li>";
-
     });
 
     socket.on('user left', function(data){
-    console.log("user left", data);
-
-    var div = document.getElementById('messages');
-    div.innerHTML += "<li>" +"Hip: " + data + "</li>";
-
-  });
+      console.log("user left", data);
+      var div = document.getElementById('messages');
+      div.innerHTML += "<li>" +"Hip: " + data + "</li>";
+    });
   }
 
   addUser(user) {
     // Add User
   }
 
-  handleSubmit (event) {
- console.log("handle submit");
-  let room = "abc123";
-  event.preventDefault();
-
-  let div = document.getElementById('messages');
-  div.innerHTML += "<li>" + "Me: " + document.getElementById('m').value + "</li>";
-
-
-  let data = {id:room, msg: document.getElementById('m').value};
-  socket.emit('say to', data);
-  document.getElementById('m').value = '';
+  hipFound(){
 
   }
 
+  handleSubmit (event) {
+    const { socket } = this.props;
+   console.log("handle submit");
+    let room = "abc123";
+    event.preventDefault();
+
+    let div = document.getElementById('messages');
+    div.innerHTML += "<li>" + "Me: " + document.getElementById('m').value + "</li>";
+
+    let data = {id:room, msg: document.getElementById('m').value};
+    socket.emit('say to', data);
+    document.getElementById('m').value = '';
+  }
+
   disconnect (event) {
+    const { socket } = this.props;
     let room = "abc123";
     event.preventDefault();
     let data = {id:room, lat: this.props.locationFromApp};
