@@ -25,16 +25,13 @@ class App extends Component {
 
               this.setState({
                  status: text,
-                 isHipFound: hipFound
+                 isHipFound: hipFound,
+                 latitude: position.coords.latitude,
+                 longitude: position.coords.longitude,
+                 error: null,
               })
            });
          })
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        })
-
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -56,7 +53,7 @@ class App extends Component {
         {this.state.error ? <p>Error: {this.state.error}</p> : null}
 
         {this.state.isHipFound ? (
-          <Room />
+          <Room locationFromApp={this.state.latitude}/>
         ) : (
           <p>{"No hips found"}</p>
         )}
