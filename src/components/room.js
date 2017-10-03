@@ -8,17 +8,18 @@ class Room extends React.Component {
 
 
   constructor(props) {
-    let room = "abc123";
+
     super(props)
 
-
     this.handleSubmit = this.handleSubmit.bind(this);
-    socket.on('add user', (user) => this.addUser(user));
 
-    socket.emit('room', room);
+
+      let room = "abc123";
+      socket.emit('room', room);
 
     socket.on('chat message', function(data){
       console.log("chat message", data);
+
       var div = document.getElementById('messages');
       div.innerHTML += "<li>" + data + "</li>";
 
@@ -30,9 +31,11 @@ class Room extends React.Component {
   }
 
   handleSubmit (event) {
-    console.log("handle submit");
-  var socket = io();
+ console.log("handle submit");
+
   event.preventDefault();
+
+
 
   var data = {id:'abc123', msg: document.getElementById('m').value};
   socket.emit('say to', data);
