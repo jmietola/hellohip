@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Room from './components/room.js';
-const io = require('socket.io-client')
-const socket = io()
+const io = require('socket.io-client');
+const socket = io();
 
 
 class App extends Component {

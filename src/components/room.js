@@ -19,9 +19,9 @@ class Room extends React.Component {
     let room = "abc123";
     let data = {id:room, msg: true};
 
-    socket.emit('hipFound', data);
+    socket.emit('room', room);
 
-//    socket.emit('room', room);
+    socket.emit('hipFound', data);
 
     socket.on('chat message', function(data){
       console.log("chat message", data);
@@ -67,6 +67,13 @@ class Room extends React.Component {
     socket.emit('remove', data);
   }
 
+  join (event) {
+    console.log("join");
+    const { socket } = this.props;
+    let room = "abc123";
+    socket.emit('room', room);
+  }
+
   render() {
     return (
       <div>
@@ -75,6 +82,7 @@ class Room extends React.Component {
           <input id="m" autocomplete="off" /><button>Send</button>
         </form>
         <button onClick={this.disconnect.bind(this)}>Disconnect</button>
+        <button onClick={this.join.bind(this)}>Join</button>
       </div>
 
     )
