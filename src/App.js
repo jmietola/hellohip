@@ -19,7 +19,8 @@ class App extends Component {
   state = {users: []}
 
   componentDidMount() {
-
+    let room = "abc123";
+    socket.emit('room', room);
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -45,14 +46,6 @@ class App extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
-
-    //code before the pause
-    setTimeout(function(){
-      let room = "abc123";
-      socket.emit('room', room);
-    }, 2000);
-
-
 
     let self = this;
     socket.on('hipMatch', function(data){
