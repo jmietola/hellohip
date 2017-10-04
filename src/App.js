@@ -46,8 +46,12 @@ class App extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
 
-    let room = "abc123";
-    socket.emit('room', room);
+    //code before the pause
+    setTimeout(function(){
+      let room = "abc123";
+      socket.emit('room', room);
+    }, 2000);
+
 
 
     let self = this;
