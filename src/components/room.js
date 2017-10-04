@@ -19,7 +19,12 @@ class Room extends React.Component {
     let room = "abc123";
     let data = {id:room, msg: true};
 
-    socket.emit('room', room);
+
+
+    //code before the pause
+    setTimeout(function(){
+      socket.emit('room', room);
+    }, 2000);
 
     socket.emit('hipFound', data);
 

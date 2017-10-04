@@ -14,12 +14,13 @@ class App extends Component {
   color: "1"
   };
 
-
   }
 
   state = {users: []}
 
   componentDidMount() {
+
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         fetch(`/users?lat=${position.coords.latitude}&lng=${position.coords.longitude}`)
@@ -38,14 +39,16 @@ class App extends Component {
                  error: null,
               })
 
-              let room = "abc123";
-              socket.emit('room', room);
            });
          })
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+
+    let room = "abc123";
+    socket.emit('room', room);
+
 
     let self = this;
     socket.on('hipMatch', function(data){
