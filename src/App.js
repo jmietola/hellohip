@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Room from './components/room.js';
 const io = require('socket.io-client');
-const socket = io(window.location.href);
+const socket = io({transports:['websocket']});
 
 
 class App extends Component {

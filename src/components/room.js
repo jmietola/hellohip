@@ -4,9 +4,7 @@ import './room.css';
 //const socket = io()
 
 class Room extends React.Component {
-
-
-
+  
   constructor(props) {
 
     super(props)
@@ -44,7 +42,7 @@ class Room extends React.Component {
 
   handleSubmit (event) {
     const { socket } = this.props;
-   console.log("handle submit");
+    console.log("handle submit");
     let room = "abc123";
     event.preventDefault();
 
