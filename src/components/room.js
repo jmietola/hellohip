@@ -19,7 +19,6 @@ class Room extends React.Component {
     let room = "abc123";
     let data = {id:room, msg: true};
 
-    socket.emit('room', room);
     socket.emit('hipFound', data);
 
     socket.on('chat message', function(data){
